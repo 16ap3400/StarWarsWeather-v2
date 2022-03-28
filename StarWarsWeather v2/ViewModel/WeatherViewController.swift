@@ -20,41 +20,41 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var itsLikeLabel: UILabel!
     @IBOutlet weak var outThereLabel: UILabel!
-    
+
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.backgroundImage.image = UIImage(named: "Hoth")
-        
+
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
         locationManager.requestLocation()
 
         searchTextField.delegate = self
-        weatherManager.delegate = self
-        
+//        weatherManager.delegate = self
+
     }
-    
+
     @IBAction func getCurrentLocation(_ sender: UIButton) {
         locationManager.requestLocation()
     }
-   
+
 }
 
 extension WeatherViewController: UITextFieldDelegate, WeatherManagerDelegate {
-    
+
     @IBAction func searchPressed(_ sender: UIButton) {
         searchTextField.endEditing(true)
     }
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchTextField.endEditing(true)
         return true
     }
-    
+
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         if textField.text != "" {
             return true
@@ -63,7 +63,7 @@ extension WeatherViewController: UITextFieldDelegate, WeatherManagerDelegate {
             return false
         }
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         print(searchTextField.text!)
         if let city = searchTextField.text {
@@ -71,7 +71,7 @@ extension WeatherViewController: UITextFieldDelegate, WeatherManagerDelegate {
         }
         searchTextField.text = ""
     }
-    
+
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
 //            self.conditionImageView.image = UIImage(systemName: weather.conditionName)
@@ -86,14 +86,14 @@ extension WeatherViewController: UITextFieldDelegate, WeatherManagerDelegate {
             self.itsLikeLabel.textColor = weather.fontColor
             self.outThereLabel.textColor = weather.fontColor
         }
-        
+
     }
-    
+
     func didFailWithError(error: Error) {
         print("There is an error")
         print(error)
     }
-    
+
 }
 
 extension WeatherViewController: CLLocationManagerDelegate {
@@ -105,7 +105,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
             weatherManager.fetchWeather(latitude: lat, longitude: lon)
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }

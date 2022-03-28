@@ -7,13 +7,20 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
-struct WeatherModel {
+class WeatherModel: ObservableObject {
     let conditionId: Int
     let cityName: String
     let temperature: Double
     let description: String
+    
+    init(conditionId: Int, cityName: String, temperature: Double, description: String) {
+        self.conditionId = conditionId
+        self.cityName = cityName
+        self.temperature = temperature
+        self.description = description
+    }
 
     
     var temperatureString: String {
@@ -41,28 +48,28 @@ struct WeatherModel {
         return article + temperatureString + "° F, " + description + "?"
     }
     
-    var fontColor: UIColor {
+    var fontColor: Color {
         switch planetName {
         case "Tatooine":
-            return UIColor.white
+            return Color.white
         case "Mustafar":
-            return UIColor.white
+            return Color.white
         case "Yavin 4":
-            return UIColor.white
+            return Color.white
         case "Naboo":
-            return UIColor.white
+            return Color.white
         case "Bespin":
-            return UIColor.black
+            return Color.black
         case "Dagobah":
-            return UIColor.white
+            return Color.white
         case "Endor":
-            return UIColor.white
+            return Color.white
         case "Hoth":
-            return UIColor.black
+            return Color.black
         case "Kamino":
-            return UIColor.white
+            return Color.white
         default:
-            return UIColor.green
+            return Color.green
         }
     }
     
