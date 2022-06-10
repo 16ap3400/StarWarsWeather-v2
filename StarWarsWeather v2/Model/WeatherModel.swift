@@ -7,13 +7,20 @@
 //
 
 import Foundation
-import UIKit
+import SwiftUI
 
-struct WeatherModel {
+class WeatherModel {
     let conditionId: Int
     let cityName: String
     let temperature: Double
     let description: String
+    
+    init(conditionId: Int, cityName: String, temperature: Double, description: String) {
+        self.conditionId = conditionId
+        self.cityName = cityName
+        self.temperature = temperature
+        self.description = description
+    }
 
     
     var temperatureString: String {
@@ -41,7 +48,32 @@ struct WeatherModel {
         return article + temperatureString + "° F, " + description + "?"
     }
     
-    var fontColor: UIColor {
+    var fontColor: Color {
+        switch planetName {
+        case "Tatooine":
+            return Color.white
+        case "Mustafar":
+            return Color.white
+        case "Yavin 4":
+            return Color.white
+        case "Naboo":
+            return Color.white
+        case "Bespin":
+            return Color.black
+        case "Dagobah":
+            return Color.white
+        case "Endor":
+            return Color.white
+        case "Hoth":
+            return Color.black
+        case "Kamino":
+            return Color.white
+        default:
+            return Color.green
+        }
+    }
+    
+    var fontUIColor: UIColor {
         switch planetName {
         case "Tatooine":
             return UIColor.white
@@ -146,7 +178,7 @@ struct WeatherModel {
                 case 802...804:
                     return "Dagobah"
                 default:
-                    return "Tatooine"
+                    return "Yavin 4"
             }
         }else{
             switch conditionId {
@@ -195,13 +227,13 @@ struct WeatherModel {
         case "Hoth":
             return "Cold. It's freezing desolation."
         case "Endor":
-            return "Temperate, but grey \n and cloudy."
+            return "Temperate, but grey and cloudy."
         case "Yavin 4":
-            return "Hot but with some \n clouds in the sky."
+            return "Hot but with some clouds in the sky."
         case "Naboo":
-            return "Temperate, dry, \n and fairly pleasant."
+            return "Temperate, dry, and fairly pleasant."
         case "Bespin":
-            return "Fog, mist, cloud. \n Can't see a thing."
+            return "Fog, mist, cloud. Can't see a thing."
         default:
             return "Try somewhere that exists."
         }

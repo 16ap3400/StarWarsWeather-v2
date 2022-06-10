@@ -1,10 +1,10 @@
-//
-//  WeatherManager.swift
-//  Star Wars Weather
-//
-//  Created by Alex Peterson on 02/04/2021.
-//  Copyright © 2021 Alex S Peterson. All rights reserved.
-//
+////
+////  WeatherManager.swift
+////  Star Wars Weather
+////
+////  Created by Alex Peterson on 02/04/2021.
+////  Copyright © 2021 Alex S Peterson. All rights reserved.
+////
 
 import Foundation
 
@@ -13,23 +13,10 @@ protocol WeatherManagerDelegate {
     func didFailWithError(error: Error)
 }
 
-
 struct WeatherManager {
     let weatherURL = "https://api.openweathermap.org/data/2.5/weather?appid=67b46e25235af20a6152a33263f69817&units=imperial"
-    
-    var delegate: WeatherManagerDelegate?
-    
-    func fetchWeather(cityName: String) {
-        let urlString = "\(weatherURL)&q=\(cityName)"
-        peformRequest(urlstring: urlString)
-    }
-    
-    func fetchWeather(latitude: Double, longitude: Double){
-        let urlString = "\(weatherURL)&lon=\(longitude)&lat=\(latitude)"
-        peformRequest(urlstring: urlString)
-    }
-    
-    func peformRequest(urlstring: String) {
+
+    func peformRequest(urlstring: String, completion: @escaping (WeatherModel) -> Void) {
         //1. Create a URL
         if let url = URL(string: urlstring){
 
@@ -37,13 +24,14 @@ struct WeatherManager {
             let task = session.dataTask(with: url) { (data, response, error) in
                 if error != nil {
                     print(error!)
-                    self.delegate?.didFailWithError(error: error!)
+//                    self.delegate?.didFailWithError(error: error!)
                     return
                 }
                 
                 if let safeData = data {
                     if let weather = self.parseJSON(weatherData: safeData){
-                        self.delegate?.didUpdateWeather(self, weather: weather)
+                        completion(weather)
+//                        self.delegate?.didUpdateWeather(self, weather: weather)
                     }
                 }
             }
@@ -66,11 +54,31 @@ struct WeatherManager {
             return weather
         } catch {
             print(error)
-            delegate?.didFailWithError(error: error)
+//            delegate?.didFailWithError(error: error)
             return nil
         }
     }
     
     
     
+}
+
+extension WeatherManager {
+    func fetchWeather(cityName: String) -> WeatherModel? {
+        let urlString = "\(weatherURL)&q=\(cityName)"
+        var newWeatherModel: WeatherModel?
+        peformRequest(urlstring: urlString) { model in
+            newWeatherModel = model
+        }
+        return newWeatherModel
+    }
+    
+    func fetchWeather(latitude: Double, longitude: Double) -> WeatherModel? {
+        let urlString = "\(weatherURL)&lon=\(longitude)&lat=\(latitude)"
+        var newWeatherModel: WeatherModel?
+        peformRequest(urlstring: urlString) { model in
+            newWeatherModel = model
+        }
+        return newWeatherModel
+    }
 }
