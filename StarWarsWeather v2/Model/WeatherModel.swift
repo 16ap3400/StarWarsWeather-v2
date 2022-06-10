@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-class WeatherModel: ObservableObject {
+class WeatherModel {
     let conditionId: Int
     let cityName: String
     let temperature: Double
@@ -70,6 +70,31 @@ class WeatherModel: ObservableObject {
             return Color.white
         default:
             return Color.green
+        }
+    }
+    
+    var fontUIColor: UIColor {
+        switch planetName {
+        case "Tatooine":
+            return UIColor.white
+        case "Mustafar":
+            return UIColor.white
+        case "Yavin 4":
+            return UIColor.white
+        case "Naboo":
+            return UIColor.white
+        case "Bespin":
+            return UIColor.black
+        case "Dagobah":
+            return UIColor.white
+        case "Endor":
+            return UIColor.white
+        case "Hoth":
+            return UIColor.black
+        case "Kamino":
+            return UIColor.white
+        default:
+            return UIColor.green
         }
     }
     
@@ -153,7 +178,7 @@ class WeatherModel: ObservableObject {
                 case 802...804:
                     return "Dagobah"
                 default:
-                    return "Tatooine"
+                    return "Yavin 4"
             }
         }else{
             switch conditionId {
@@ -202,13 +227,13 @@ class WeatherModel: ObservableObject {
         case "Hoth":
             return "Cold. It's freezing desolation."
         case "Endor":
-            return "Temperate, but grey \n and cloudy."
+            return "Temperate, but grey and cloudy."
         case "Yavin 4":
-            return "Hot but with some \n clouds in the sky."
+            return "Hot but with some clouds in the sky."
         case "Naboo":
-            return "Temperate, dry, \n and fairly pleasant."
+            return "Temperate, dry, and fairly pleasant."
         case "Bespin":
-            return "Fog, mist, cloud. \n Can't see a thing."
+            return "Fog, mist, cloud. Can't see a thing."
         default:
             return "Try somewhere that exists."
         }

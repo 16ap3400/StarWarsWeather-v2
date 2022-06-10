@@ -79,12 +79,12 @@ extension WeatherViewController: UITextFieldDelegate, WeatherManagerDelegate {
             self.backgroundImage.image = UIImage(named: "\(weather.planetName)")
             self.prePlanetText.text = weather.prePlanetText
             self.postPlantText.text = weather.planetCommentAfter
-            self.prePlanetText.textColor = weather.fontColor
-            self.postPlantText.textColor = weather.fontColor
-            self.cityLabel.textColor = weather.fontColor
-            self.searchTextField.textColor = weather.fontColor
-            self.itsLikeLabel.textColor = weather.fontColor
-            self.outThereLabel.textColor = weather.fontColor
+            self.prePlanetText.textColor = weather.fontUIColor
+            self.postPlantText.textColor = weather.fontUIColor
+            self.cityLabel.textColor = weather.fontUIColor
+            self.searchTextField.textColor = weather.fontUIColor
+            self.itsLikeLabel.textColor = weather.fontUIColor
+            self.outThereLabel.textColor = weather.fontUIColor
         }
 
     }
