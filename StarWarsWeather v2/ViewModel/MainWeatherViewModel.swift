@@ -13,6 +13,7 @@ class MainViewModel: NSObject, ObservableObject {
     // Main data source/endpoint
     @Published var weather: WeatherModel
     let weatherManager = WeatherManager()
+    @Published var isLoading: Bool = false
     
     // Location info
     @Published var authorizationStatus: CLAuthorizationStatus
@@ -40,20 +41,26 @@ class MainViewModel: NSObject, ObservableObject {
 
 extension MainViewModel: CLLocationManagerDelegate {
     func fetchWeather(cityName: String) {
-        let urlCityName = cityName.replacingOccurrences(of: " ", with: "+")
-        let urlString = "\(weatherURL)&q=\(urlCityName)"
-        weatherManager.peformRequest(urlstring: urlString) { model in
-            DispatchQueue.main.async {
-                self.weather = model
+        if(cityName != "") {
+            isLoading = true
+            let urlCityName = cityName.replacingOccurrences(of: " ", with: "+")
+            let urlString = "\(weatherURL)&q=\(urlCityName)"
+            weatherManager.peformRequest(urlstring: urlString) { model in
+                DispatchQueue.main.async {
+                    self.weather = model
+                    self.isLoading = false
+                }
             }
         }
     }
     
     func fetchWeather(lat: CLLocationDegrees, lon: CLLocationDegrees) {
+        isLoading = true
         let urlString = "\(weatherURL)&lon=\(lon)&lat=\(lat)"
         weatherManager.peformRequest(urlstring: urlString) { model in
             DispatchQueue.main.async {
                 self.weather = model
+                self.isLoading = false
             }
         }
     }
