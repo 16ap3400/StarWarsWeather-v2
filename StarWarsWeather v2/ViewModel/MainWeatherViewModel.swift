@@ -55,7 +55,6 @@ extension MainViewModel: CLLocationManagerDelegate {
     }
     
     func fetchWeather(lat: CLLocationDegrees, lon: CLLocationDegrees) {
-        isLoading = true
         let urlString = "\(weatherURL)&lon=\(lon)&lat=\(lat)"
         weatherManager.peformRequest(urlstring: urlString) { model in
             DispatchQueue.main.async {
@@ -99,6 +98,7 @@ extension MainViewModel {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
+            isLoading = true
             locationManager.stopUpdatingLocation()
             let lat = location.coordinate.latitude
             let lon = location.coordinate.longitude
